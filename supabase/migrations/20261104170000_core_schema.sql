@@ -293,5 +293,13 @@ begin
   end loop;
 end $$;
 
--- Explicitly revoke default access on subsequent tables owned by this migration role.
+-- Explicit server-only service role grants. The key must NEVER reach a browser.
+-- A service-role call bypasses RLS, so the Next.js API still MUST check
+-- active organization/event memberships on every request.
+grant select, insert, update, delete on all tables in schema public to service_role;
+
+-- Deny clients and preserve server service access for future tables created
+-- by this migration owner. Review grants whenever the owner role changes.
 alter default privileges in schema public revoke all on tables from public, anon, authenticated;
+alter default privileges in schema public
+  grant select, insert, update, delete on tables to service_role;
