@@ -1,0 +1,22 @@
+"use client";
+import { useState, type FormEvent } from "react";
+
+type Stage = "invite" | "register" | "email" | "verify" | "rsvp" | "status";
+export function GuestPreview() {
+  const [stage, setStage] = useState<Stage>("invite");
+  const [code, setCode] = useState("");
+  const [choice, setChoice] = useState<"yes" | "no" | "">("");
+  const [error, setError] = useState("");
+  function next(event: FormEvent<HTMLFormElement>, target: Stage) { event.preventDefault(); setError(""); setStage(target); }
+  function invite(event: FormEvent<HTMLFormElement>) { event.preventDefault(); if (!code.trim()) { setError("Inserisci un codice d’invito di esempio."); return; } setError(""); setStage("register"); }
+  return <><section className="hero preview-hero"><span className="eyebrow">Un invito per una notte speciale</span><h1>La notte inizia qui.</h1><p>Evento dimostrativo · Bruxelles · Data e luogo da definire</p><div className="notice">SIMULAZIONE: nessun dato viene inviato o salvato; nessun posto è prenotato.</div></section>
+  <section className="preview-card panel" aria-labelledby="step-title">
+    <p className="eyebrow">Percorso ospite · esempio interattivo</p>
+    {stage === "invite" && <><h2 id="step-title">Il tuo invito</h2><p>Inserisci un codice qualsiasi per esplorare il percorso. Non viene controllata la sua validità.</p><form className="form-stack" onSubmit={invite}><label htmlFor="code">Codice d’invito</label><input id="code" value={code} onChange={e => setCode(e.target.value)} maxLength={100} autoComplete="off" />{error && <p role="alert" className="form-error">{error}</p>}<button className="primary-link">Continua</button></form></>}
+    {stage === "register" && <><h2 id="step-title">Presentati</h2><p>I dati inseriti restano soltanto in questa schermata e non producono una registrazione.</p><form className="form-stack" onSubmit={e => next(e, "email")}><label htmlFor="first">Nome</label><input id="first" required maxLength={100} autoComplete="given-name" /><label htmlFor="last">Cognome</label><input id="last" required maxLength={100} autoComplete="family-name" /><label htmlFor="email">Email</label><input id="email" type="email" required maxLength={254} autoComplete="email" /><label className="check"><input type="checkbox" required /> Ho letto l’informativa (testo definitivo da predisporre).</label><button className="primary-link">Continua nell’anteprima</button></form></>}
+    {stage === "email" && <><h2 id="step-title">Controlla la tua email</h2><p>Nella versione operativa riceverai un messaggio per verificare il tuo indirizzo. In questa anteprima non viene inviata alcuna email.</p><button className="primary-link" onClick={() => setStage("verify")}>Mostra la schermata di verifica</button><p><button className="text-button" disabled>Reinvio non disponibile nell’anteprima</button></p></>}
+    {stage === "verify" && <><h2 id="step-title">Verifica il tuo indirizzo</h2><p>Il link reale richiederà una conferma esplicita; un’apertura automatica non completerà la verifica. I link scaduti o già utilizzati richiederanno un nuovo invio.</p><button className="primary-link" onClick={() => setStage("rsvp")}>Simula la verifica</button></>}
+    {stage === "rsvp" && <><h2 id="step-title">Parteciperai?</h2><p>La verifica email e la conferma di partecipazione sono due passaggi distinti.</p><form onSubmit={e => {e.preventDefault(); if (!choice) {setError("Scegli una risposta per continuare."); return;} setError(""); setStage("status");}} className="form-stack"><label className="check"><input type="radio" name="rsvp" value="yes" checked={choice === "yes"} onChange={() => setChoice("yes")} /> Sì, parteciperò</label><label className="check"><input type="radio" name="rsvp" value="no" checked={choice === "no"} onChange={() => setChoice("no")} /> No, non parteciperò</label>{error && <p role="alert" className="form-error">{error}</p>}<button className="primary-link">Conferma nella simulazione</button></form></>}
+    {stage === "status" && <><h2 id="step-title">Risposta dimostrativa</h2><p>{choice === "yes" ? "Hai scelto SÌ nella simulazione. La disponibilità e l’eventuale lista d’attesa saranno decise dal sistema reale." : "Hai scelto NO nella simulazione. Nessun biglietto è stato creato."}</p><p>Non hai un biglietto né una prenotazione: questo è solo un esempio.</p><button className="secondary-link" onClick={() => setStage("rsvp")}>Cambia risposta</button></>}
+  </section></>;
+}

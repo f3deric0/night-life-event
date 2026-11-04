@@ -1,0 +1,6 @@
+import Link from "next/link";
+
+const metrics = [["Registrazioni", "220"], ["Email verificate", "196"], ["RSVP sì", "174"], ["Ammessi", "170"], ["Ingressi", "131"], ["No-show", "N/D"]];
+export default function DashboardPreview() {
+  return <main className="site-frame"><header className="site-nav"><Link href="/anteprima" className="brand">← Anteprima ospite</Link><span className="notice">DATI SINTETICI</span></header><section className="hero preview-hero"><span className="eyebrow">Anteprima organizzatore</span><h1>Ogni evento, sotto controllo.</h1><p>Esempio illustrativo pubblico. Non sono dati di un evento reale e le funzioni gestionali non sono ancora collegate.</p></section><section className="grid" aria-label="Statistiche di esempio">{metrics.map(([label, value]) => <article className="panel" key={label}><span className="eyebrow">{label}</span><h2>{value}</h2></article>)}</section><section className="panel preview-card"><h2>Evento dimostrativo</h2><p>Verifica email, RSVP, ammissione e ingresso sono conteggi separati. Il no-show sarà disponibile soltanto dopo la conclusione dell’evento.</p><p>Creazione eventi, partecipanti, codici, filtri ed esportazione CSV richiedono API e autorizzazioni server ancora da integrare.</p><Link className="secondary-link" href="/staff/login">Staff Access</Link></section></main>;
+}

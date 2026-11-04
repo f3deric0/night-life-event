@@ -50,3 +50,19 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outlin
   .grid { grid-template-columns: 1fr; padding-bottom: 70px; }
   .footer { flex-direction: column; }
 }
+
+
+/* Agent 2: form and preview refinements */
+.preview-hero { padding: 68px 0 36px; }
+.preview-card { max-width: 650px; margin: 0 0 80px; }
+.form-stack { display: grid; gap: 12px; margin-top: 22px; }
+.form-stack label { font-weight: 700; }
+.form-stack input:not([type="checkbox"]):not([type="radio"]) { width: 100%; min-height: 48px; padding: 12px; color: var(--ink); background: #0a101a; border: 1px solid #8292a6; border-radius: 10px; font: inherit; }
+.form-stack input:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.check { display: flex; align-items: center; gap: 10px; min-height: 44px; line-height: 1.4; }
+.check input { width: 20px; height: 20px; flex: none; accent-color: #a4e2c1; }
+button { font: inherit; cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: .65; }
+.form-error { color: #ffb8b8 !important; }
+.text-button { padding: 0; background: none; color: var(--muted); border: 0; text-align: left; }
+@media (max-width: 740px) { .preview-hero { padding: 50px 0 30px; } .preview-card { margin-bottom: 50px; } }
