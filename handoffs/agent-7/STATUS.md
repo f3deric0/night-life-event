@@ -1,6 +1,6 @@
 # Agente 7 — audit sicurezza e privacy
 
-Aggiornato: 2026-11-04. Branch `agent/security-audit`; PR: da aggiornare al momento della creazione; base `69e6469b064d687b337a883835508bf2abf4d7f4`. Stato **NO-GO**. File: `audit/THREAT_MODEL.md`, `docs/security/PILOT_PRIVACY_GATE.md`, `tests/security/security.test.mjs`, questo handoff.
+Aggiornato: 2026-11-04. Branch `agent/security-audit`; PR: https://github.com/f3deric0/night-life-event/pull/7 (bozza); base `69e6469b064d687b337a883835508bf2abf4d7f4`. Stato **NO-GO**. File: `audit/THREAT_MODEL.md`, `docs/security/PILOT_PRIVACY_GATE.md`, `tests/security/security.test.mjs`, questo handoff.
 
 ## Rischi
 - Critical: nessuna vulnerabilità sfruttabile confermata; verifiche non sufficienti a escluderle.
