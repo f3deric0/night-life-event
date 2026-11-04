@@ -1,14 +1,9 @@
-# Agent 1 — bootstrap handoff (2026-11-04)
+# Agent 1 — Backend & Security Phase 1a (2026-11-04)
 
-- **Branch:** `agent/backend`.
-- **PR:** https://github.com/f3deric0/night-life-event/pull/1 (draft; owner review required, no self-merge).
-- **Milestone:** BOOTSTRAP GATE — implementation submitted for review, not production ready.
-- **Changed areas:** root configs, `src/app/**` static shell, `src/lib/contracts/index.ts`, `tests/**`, `docs/24*`, `docs/25*`, `supabase/README.md`, GitHub Actions, `IMPLEMENTATION_LOG.md`.
-- **Functional:** static landing and demo route; shared TypeScript interfaces and planned API route constants.
-- **Not functional:** privileged login, actual guest registration, email/QR/scanning, DB, production analytics. Static demo is read-only.
-- **Tests:** GitHub Actions run 41843119004 succeeded on 2026-11-04: dependency installation, `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build` all completed successfully. See https://github.com/f3deric0/night-life-event/actions/runs/41843119004. Local terminal tests were unavailable (npm registry blocked here).
-- **Credentials:** none requested, provisioned, or committed.
-- **Integrations:** Agent 2 and 3 must follow `src/lib/contracts/index.ts` and `docs/24_API_CONTRACT_FREEZE.md`.
-- **Dependency reproducibility:** `package-lock.json` committed and CI updated to `npm ci`. Confirm the latest CI run is green before approving the merge.
-- **Next:** reviewer approves bootstrap, merge, then fork all agent branches from same main commit; Agent 1 continues DB/RLS and auth.
-- **Blocker:** no production service credentials (expected at bootstrap stage).
+- **Branch:** `agent/backend-phase1`; this is a separate draft migration PR based on merged bootstrap main `69e6469`.
+- **Delivered:** initial PostgreSQL 17-table core schema, tenant/event composite foreign keys, normalized staff usernames and guest emails, invitation code hashes/quotas, check-in uniqueness, token hashes and indexes.
+- **Security:** RLS enabled and direct grants revoked for `anon` and `authenticated` on every new table. No permissive policies; no service-role key exposed. Application server auth must be added before enabling API access.
+- **Test plan:** disposable PostgreSQL 16 GitHub Actions job creates synthetic auth.users stub, executes migration and checks RLS/client grants/structural constraints.
+- **Important:** SQL is NOT applied to Supabase yet; actual Supabase project/org, auth integration, concurrency tests, check-in RPC, email jobs, public/private endpoints and staff onboarding remain pending. Schema and constraints require review for production.
+- **Agent 4 delegation:** `src/lib/invites/**` pure domain/crypto code is assigned to Agent 4; Agent 1 owns these migration tables, secure DB operations and auth/API paths. Do not duplicate.
+- **State:** NOT READY FOR PILOT. No real data or credentials committed.
