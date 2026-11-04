@@ -132,14 +132,20 @@ create table public.registrations (
 
 create table public.code_claims (
   id uuid primary key default gen_random_uuid(),
-  registration_id uuid not null unique references public.registrations(id) on delete cascade,
-  code_id uuid not null references public.invite_codes(id),
+  registration_id uuid not null unique,
+  code_id uuid not null,
+  event_id uuid not null,
+  organization_id uuid not null,
   state text not null default 'held' check (state in ('held','consumed','released')),
   held_until timestamptz,
   consumed_at timestamptz,
   created_at timestamptz not null default now(),
   check (state <> 'held' or held_until is not null),
-  check (state <> 'consumed' or consumed_at is not null)
+  check (state <> 'consumed' or consumed_at is not null),
+  foreign key (registration_id, event_id, organization_id)
+    references public.registrations(id, event_id, organization_id) on delete cascade,
+  foreign key (code_id, event_id, organization_id)
+    references public.invite_codes(id, event_id, organization_id)
 );
 
 create table public.guest_verification_tokens (
@@ -199,12 +205,20 @@ create table public.checkins (
 
 create table public.scan_attempts (
   id uuid primary key default gen_random_uuid(),
-  event_id uuid not null references public.events(id) on delete cascade,
-  ticket_id uuid references public.tickets(id),
+  organization_id uuid not null,
+  event_id uuid not null,
+  registration_id uuid,
+  ticket_id uuid,
   staff_user_id uuid not null references public.staff_profiles(auth_user_id),
   result text not null check (result in ('accepted','denied')),
   reason text,
-  attempted_at timestamptz not null default now()
+  attempted_at timestamptz not null default now(),
+  check ((ticket_id is null and registration_id is null) or
+         (ticket_id is not null and registration_id is not null)),
+  foreign key (event_id, organization_id)
+    references public.events(id, organization_id) on delete cascade,
+  foreign key (ticket_id, event_id, registration_id, organization_id)
+    references public.tickets(id, event_id, registration_id, organization_id)
 );
 
 create table public.email_jobs (
@@ -223,7 +237,9 @@ create table public.email_jobs (
   last_error_code text,
   created_at timestamptz not null default now(),
   foreign key (registration_id, event_id, organization_id)
-    references public.registrations(id, event_id, organization_id)
+    references public.registrations(id, event_id, organization_id),
+  foreign key (ticket_id, event_id, registration_id, organization_id)
+    references public.tickets(id, event_id, registration_id, organization_id)
 );
 
 create table public.email_delivery_events (
@@ -244,7 +260,9 @@ create table public.audit_logs (
   resource_type text not null,
   resource_id uuid,
   details jsonb not null default '{}'::jsonb,
-  occurred_at timestamptz not null default now()
+  occurred_at timestamptz not null default now(),
+  foreign key (event_id, organization_id)
+    references public.events(id, organization_id)
 );
 
 create index events_org_start_idx on public.events(organization_id, starts_at);
