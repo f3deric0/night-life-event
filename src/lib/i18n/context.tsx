@@ -8,7 +8,14 @@ const I18nContext = createContext<Ctx | null>(null);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [locale, setLocale] = useState<Locale>(DEFAULT_LOCALE);
-  useEffect(() => { setLocale(detectLocale(navigator.languages ?? [navigator.language])); }, []);
+  useEffect(() => {
+    let active = true;
+    // Defer browser-locale detection until after hydration to preserve SSR markup.
+    queueMicrotask(() => {
+      if (active) setLocale(detectLocale(navigator.languages ?? [navigator.language]));
+    });
+    return () => { active = false; };
+  }, []);
   useEffect(() => { document.documentElement.lang = locale; }, [locale]);
   return <I18nContext.Provider value={{ locale, t: DICTIONARY[locale], setLocale }}>{children}</I18nContext.Provider>;
 }
