@@ -15,7 +15,7 @@ Aggiornato: 2026-11-04. Branch `agent/api-integration`, base `69e6469b064d687b33
 
 ## Test effettivamente eseguiti
 - `node --experimental-strip-types --test tests/api-integration.test.mjs`: **PASS, 6/6**, exit 0. Copre fail-closed, delega adapter, campi extra/malformed/oversize, privacy e idempotenza registrazione, DOB futura, separazione verifica/RSVP, cookie protetti, same-origin login ed errore autorizzazione generico.
-- `npm run typecheck && npm run lint && npm test && npm run build`: **BLOCKED locale**, `package.json` non presente nel checkout Work; nessun risultato inventato. Richiesta CI GitHub sulla PR.
+- GitHub Actions `Bootstrap checks` run 41873642951 sul commit `350199b2197ccd23c35d7748cb291b7502888843`: **PASS**. Installazione, lint, TypeScript, unit test root e build completati con successo. Il comando aggregato resta non eseguibile nel checkout Work privo del repository/package.json; il risultato verificato è quello CI.
 - NON TESTATO: Supabase/RLS/RPC, quota concorrente, token reale, SMTP, webhook firmato, scheduler, reporting integrato, due scanner, browser/E2E e staging.
 
 ## Dipendenze e richieste
