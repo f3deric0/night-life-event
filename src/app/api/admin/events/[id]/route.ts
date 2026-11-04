@@ -1,0 +1,1 @@
+import {eventDetail} from "../../../../../lib/api-integration/handlers";import {getApiBackend} from "../../../../../lib/api-integration/ports";export const runtime="nodejs";type Context={params:Promise<{id:string}>};export async function PATCH(request:Request,{params}:Context){return eventDetail(request,(await params).id,getApiBackend());}
