@@ -16,7 +16,7 @@ The owner is using a corporate computer without ability to install apps or acces
 - Agent branches must remain isolated. Agent 1 owns root config. No direct merge without owner consent.
 
 ## Status
-Repository documentation is complete. Initial coordinator work is the **bootstrap PR** implementing an app shell and typed contracts; no live DB/auth/mail/scanning exists yet.
+Repository documentation is complete. Coordinator created **bootstrap PR #1** on `agent/backend` (https://github.com/f3deric0/night-life-event/pull/1), containing Next.js shell, typed contracts, docs and CI. GitHub Actions run 41843119004 passed install/lint/typecheck/unit tests/build. The PR is still unmerged; no live DB/auth/mail/scanning exists yet.
 Changes, checks and outstanding blockers are recorded in `IMPLEMENTATION_LOG.md` and `handoffs/agent-1/STATUS.md`. A new chat can continue by reading this file plus the affected area docs, rather than replaying the conversation.
 
 ## Next gates

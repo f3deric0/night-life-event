@@ -6,6 +6,6 @@
 - Introduced shared domain types, route constants and pure ticket-eligibility UI helper at `src/lib/contracts/index.ts`.
 - Added tests, ESLint config, CI workflow, environment-variable placeholders, contract-freeze documentation and coordinator continuity brief.
 - **Not implemented:** PostgreSQL/Supabase, RLS, sessions/auth, guest registration, email sending, RSVP APIs, QR generation, real check-in, dashboard.
-- **Verification:** source reviewed statically. A CI workflow is included; actual install/lint/typecheck/build results depend on GitHub Actions availability. Do not treat them as passed until confirmed.
+- **Verification:** GitHub Actions `Bootstrap checks`, run 41843119004, completed **successfully** on 2026-11-04. The job performed `npm install --no-audit --no-fund`, `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build`; all steps reported success. Details: https://github.com/f3deric0/night-life-event/actions/runs/41843119004. Local npm installation was unavailable in this ChatGPT runtime.
 - **Dependency note:** no package-lock.json was generated because this execution environment cannot access npm registry. After a network-enabled install, generate and commit the lockfile in Agent 1's branch; use `npm ci` in CI once a lockfile exists.
 - **Next:** review bootstrap PR, resolve checks, merge only after owner approval, then launch three agents from updated main.
