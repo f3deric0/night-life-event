@@ -8,7 +8,7 @@ const SAFE_MESSAGES: Record<ApiErrorCode, string> = {
 export class ApiPortError extends Error { readonly code:ApiErrorCode;readonly status:number;constructor(code:ApiErrorCode,status:number){super(code);this.code=code;this.status=status;} }
 const secureHeaders = { "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" };
 export function apiError(code: ApiErrorCode, status: number): Response { return Response.json({ ok:false, error:{ code, message:SAFE_MESSAGES[code], traceId:crypto.randomUUID() } }, { status, headers:secureHeaders }); }
-export function apiOk<T>(data:T,status=200,extraHeaders?:HeadersInit):Response{return Response.json({ok:true,data},{status,headers:{...secureHeaders,...extraHeaders}});}
+export function apiOk<T>(data:T,status=200,extraHeaders?:HeadersInit):Response{const responseHeaders=new Headers(secureHeaders);if(extraHeaders)new Headers(extraHeaders).forEach((value,key)=>responseHeaders.set(key,value));return Response.json({ok:true,data},{status,headers:responseHeaders});}
 export const unavailable=()=>apiError("temporarily_unavailable",503); export const invalid=()=>apiError("invalid_input",400);
 export function mapPortError(error:unknown):Response{return error instanceof ApiPortError?apiError(error.code,error.status):unavailable();}
 
