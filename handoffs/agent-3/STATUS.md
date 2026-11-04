@@ -1,6 +1,6 @@
 # Agent 3 — STATUS
 
-Ultimo aggiornamento: 2026-11-04. Branch: `agent/checkin`. Base: `69e6469b064d687b337a883835508bf2abf4d7f4`. PR: draft verso main, link nella pagina GitHub del branch. Commit: vedere HEAD del branch (un file non può contenere il proprio SHA).
+Ultimo aggiornamento: 2026-11-04. Branch: `agent/checkin`. Base: `69e6469b064d687b337a883835508bf2abf4d7f4`. PR: https://github.com/f3deric0/night-life-event/pull/3 (draft verso main). Commit: vedere HEAD del branch (un file non può contenere il proprio SHA).
 
 ## Stato
 - DONE — primitive isolate: token casuali 256 bit e hash SHA-256; calcolo di due date di calendario alle 10:00 nel fuso IANA, controllo di eleggibilità e scadenza, messaggio di verifica HTTPS; provider esclusivamente mock con deduplica in memoria.
