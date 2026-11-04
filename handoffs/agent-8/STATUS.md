@@ -1,20 +1,27 @@
-# Agente 8 — API e integrazione
+# Agente 8 — API & System Integration
 
-Aggiornamento: 2026-11-04. Branch `agent/api-integration`, base `69e6469b064d687b337a883835508bf2abf4d7f4`. PR e SHA: consultare la PR e l'HEAD; nessun merge. Stato: **BLOCKED / draft, non pronto per pilot**.
+Aggiornato: 2026-11-04. Branch `agent/api-integration`, base `69e6469b064d687b337a883835508bf2abf4d7f4`. PR: da inserire dopo la creazione. Stato: **DRAFT / NO-GO per pilot**.
 
 ## Consegnato
-- Confine HTTP con `ApiResult` di errore, trace ID, `Cache-Control: no-store`; controllo JSON, campi aggiuntivi, slug, codice, UTF-8 e dimensione effettiva massima 2 KiB su `POST /api/public/invite/validate`.
-- `src/lib/api-integration/ports.ts`: interfacce di integrazione, non implementazioni: validazione, registrazione e accodamento atomici, conferma monouso e rate limiting persistente. Non è registrato alcun adapter e nessun input è registrato nei log.
-- Rotte canoniche fail-closed: validate (400 per input invalido, altrimenti 503), register, verification resend/confirm, RSVP, ticket, session GET/POST, logout, eventi GET/POST, codici GET/POST, ospiti GET, metriche GET, export GET (tutte 503). Non esistono operazioni reali, autenticazione, autorizzazioni, protezione CSRF, idempotenza o throttling; non attivarle prima delle dipendenze e dei test di sicurezza. Il codice non simula successi. Non è implementata la revoca.
-- Quattro rotte di Agent 3 non copiate né modificate: checkin, manual-checkin, dispatch-tickets e webhook email; la loro integrazione attende handoff coordinato e PR #3. Moduli di reporting PR #5 non integrati, né copiati. Nessuna modifica a schema, auth, frontend o contratti condivisi.
-- File nuovi: `src/lib/api-integration/{http,ports}.ts`, route sotto `src/app/api/{public,staff,admin}` sopra elencate, `tests/api-integration.test.mjs` e questo file. Nessuna credenziale, nessun dato personale, nessuna migrazione o invio email.
+- Boundary HTTP reali e adapter-driven per guest journey, sessione staff, eventi, codici, ospiti, metriche/export, check-in/manuale, scheduler e webhook. In assenza del composition adapter approvato, tutte le richieste valide falliscono con `503`: nessun successo simulato.
+- Validazione runtime senza nuova dipendenza: JSON/content type e limite corpo, campi esatti, slug/ID, nome, DOB non futura, email, telefono E.164, locale IT/EN/FR/NL, versione privacy, eventi e batch codici. Mutazioni sensibili richiedono origin esatto e, dove necessario, `Idempotency-Key`.
+- Cookie ospite e staff `HttpOnly; Secure; SameSite=Lax`, token mai restituiti nel JSON; errori stabili `ApiResult`, trace ID, `no-store`, messaggi generici e mapping controllato delle eccezioni dell'adapter.
+- Registrazione mantiene verifica email e RSVP separati. La porta richiede un'unica operazione atomica `registerAndEnqueueVerification`; la conferma restituisce solo una continuazione ospite protetta. Nessun token viene consumato via GET.
+- Back office: lista/crea/modifica eventi; lista/crea/revoca codici; lista ospiti; metriche; CSV. Autorizzazione e tenant/event scope sono responsabilità obbligatoria dell'adapter Agente 1; le librerie reporting Agente 4 devono alimentare l'implementazione di `metrics`/`exportReport`.
+- Handoff rotte Agente 3 recepito secondo Issue #13: handler HTTP di check-in, manuale, dispatch e webhook delegano esclusivamente alle porte; nessuna logica QR/email duplicata. Firma, replay, RPC atomica e provider restano nell'adapter/servizio proprietario.
 
-## Test eseguiti localmente
-- `npm test`: PASS, 7 test totali, 4 nuovi; verifica rifiuto input malformato/oversize, no successo in assenza di backend e struttura di errore. Nessun test HTTP E2E, DB, autenticazione, quota concorrente o invio.
-- `npm ci --offline --no-audit --no-fund`: FAIL, cache npm incompleta (`zod-validation-error`). `npm run lint`, `npm run typecheck`, `npm run build`: BLOCKED, exit 127, dipendenze assenti. Richiedere CI sul commit della PR. La verifica di import e build dipende dalla CI.
+## Endpoint
+`POST /api/public/invite/validate`, `POST /api/public/register`, `POST /api/public/verification/resend`, `POST /api/public/verification/confirm`, `POST /api/public/rsvp`, `GET /api/public/ticket`; `GET|POST /api/staff/session`, `POST /api/staff/logout`, `POST /api/staff/checkin`, `POST /api/staff/manual-checkin`; `GET|POST /api/admin/events`, `PATCH /api/admin/events/:id`, `GET|POST /api/admin/events/:id/codes`, `DELETE /api/admin/events/:id/codes/:codeId`, `GET /api/admin/events/:id/guests`, `GET /api/admin/events/:id/metrics`, `GET /api/admin/reports/export`; `POST /api/internal/dispatch-tickets`, `POST /api/webhooks/email`.
 
-## Dipendenze e prossimi passi
-1. Agent 1: fornire schema approvato, RPC di quota/registrazione/outbox e conferma monouso atomiche, permessi server, auth staff e rate limiting condiviso; concordare contratti, idempotenza e protezione CSRF. Le interfacce non garantiscono da sole alcuna proprietà.
-2. Agent 3: handoff formale di rotte e servizi, provider di verifica e outbox persistente; preservare verifica separata da RSVP. Agent 4: adapter dati autorizzato per reporting/esportazione.
-3. Agent 2: contratti congelati non includono ancora DOB e telefono; concordare estensione e formato errori prima della connessione frontend. Privacy/legal e Agent 7: base giuridica, finalità, informativa e retention prima di PII reale.
-4. Agent 5/7: test negativi e cross-tenant, race di quota e token, idempotenza, sicurezza, autenticazione e validazione end-to-end su staging isolato. Nessuna prova su Supabase reale; nessun piano a pagamento.
+## Test effettivamente eseguiti
+- `node --experimental-strip-types --test tests/api-integration.test.mjs`: **PASS, 6/6**, exit 0. Copre fail-closed, delega adapter, campi extra/malformed/oversize, privacy e idempotenza registrazione, DOB futura, separazione verifica/RSVP, cookie protetti, same-origin login ed errore autorizzazione generico.
+- `npm run typecheck && npm run lint && npm test && npm run build`: **BLOCKED locale**, `package.json` non presente nel checkout Work; nessun risultato inventato. Richiesta CI GitHub sulla PR.
+- NON TESTATO: Supabase/RLS/RPC, quota concorrente, token reale, SMTP, webhook firmato, scheduler, reporting integrato, due scanner, browser/E2E e staging.
+
+## Dipendenze e richieste
+1. Agente 1: implementare e fornire composition adapter server-only per `ApiBackend`, con auth e revoca sessione, scope org/evento, rate limit persistente, quota/registrazione/outbox e conferma token atomiche, RPC check-in, audit e RLS. Non applicare migrazioni senza approvazione.
+2. Agente 3: collegare mail/ticket/check-in ai metodi delegati, definire firma scheduler/webhook e idempotenza; il client non decide mai l'ingresso. Agente 4: fornire repository autorizzato per KPI/CSV.
+3. Agente 2: inviare telefono in E.164, `privacyNoticeVersion`, locale e idempotency key; usare i codici errore stabili. Il contratto condiviso V0 non include DOB/telefono: estensione locale in attesa di modifica coordinata Agente 1.
+4. Agenti 5/7: test cross-tenant, CSRF, race quota/check-in, replay token/webhook, formula CSV e negative HTTP. Privacy/legal: finalità, base giuridica, età, notice e retention sono ancora blocchi per PII reale.
+
+Nessun dato reale, segreto, migrazione, servizio a pagamento, email o merge effettuato.
