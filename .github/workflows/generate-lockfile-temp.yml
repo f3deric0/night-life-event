@@ -1,0 +1,35 @@
+name: Generate bootstrap lockfile (temporary)
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'agent/backend' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Produce reproducible dependency lock
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+      - name: Commit lockfile to the bootstrap PR branch
+        env:
+          HEAD_BRANCH: ${{ github.head_ref }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          if ! git diff --staged --quiet; then
+            git commit -m "chore: lock bootstrap dependencies"
+            git push origin "HEAD:$HEAD_BRANCH"
+          fi
