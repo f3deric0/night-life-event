@@ -1,3 +1,1 @@
-import { unavailable } from "../../../../../../lib/api-integration/http";
-export const runtime = "nodejs";
-export function GET(): Response { return unavailable(); }
+import {metrics} from "../../../../../../lib/api-integration/handlers";import {getApiBackend} from "../../../../../../lib/api-integration/ports";export const runtime="nodejs";type Context={params:Promise<{id:string}>};export async function GET(request:Request,{params}:Context){return metrics(request,(await params).id,getApiBackend());}
