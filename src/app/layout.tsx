@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./nightclub.css";
 
 export const metadata: Metadata = {
   title: "Night Life Event — Anteprima",
