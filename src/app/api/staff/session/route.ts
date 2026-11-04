@@ -1,4 +1,1 @@
-import { unavailable } from "../../../../lib/api-integration/http";
-export const runtime = "nodejs";
-export function GET(): Response { return unavailable(); }
-export function POST(): Response { return unavailable(); }
+import {staffLogin,staffSession} from "../../../../lib/api-integration/handlers";import {getApiBackend} from "../../../../lib/api-integration/ports";export const runtime="nodejs";export const GET=(request:Request)=>staffSession(request,getApiBackend());export const POST=(request:Request)=>staffLogin(request,getApiBackend());
