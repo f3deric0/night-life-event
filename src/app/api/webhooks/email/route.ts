@@ -1,0 +1,1 @@
+import {emailWebhook} from "../../../../lib/api-integration/handlers";import {getApiBackend} from "../../../../lib/api-integration/ports";export const runtime="nodejs";export const POST=(request:Request)=>emailWebhook(request,getApiBackend());
