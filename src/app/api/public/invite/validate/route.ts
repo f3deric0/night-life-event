@@ -1,3 +1,1 @@
-import { parseInvite } from "../../../../../lib/api-integration/http";
-export const runtime = "nodejs";
-export async function POST(request: Request): Promise<Response> { return parseInvite(request); }
+import {validateInvite} from "../../../../../lib/api-integration/handlers";import {getApiBackend} from "../../../../../lib/api-integration/ports";export const runtime="nodejs";export const POST=(request:Request)=>validateInvite(request,getApiBackend());
