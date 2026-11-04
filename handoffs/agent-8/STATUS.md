@@ -1,6 +1,6 @@
 # Agente 8 — API & System Integration
 
-Aggiornato: 2026-11-04. Branch `agent/api-integration`, base `69e6469b064d687b337a883835508bf2abf4d7f4`. PR: da inserire dopo la creazione. Stato: **DRAFT / NO-GO per pilot**.
+Aggiornato: 2026-11-04. Branch `agent/api-integration`, base `69e6469b064d687b337a883835508bf2abf4d7f4`. PR #14: https://github.com/f3deric0/night-life-event/pull/14 (draft). Stato: **DRAFT / NO-GO per pilot**.
 
 ## Consegnato
 - Boundary HTTP reali e adapter-driven per guest journey, sessione staff, eventi, codici, ospiti, metriche/export, check-in/manuale, scheduler e webhook. In assenza del composition adapter approvato, tutte le richieste valide falliscono con `503`: nessun successo simulato.
