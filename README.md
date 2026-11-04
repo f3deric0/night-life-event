@@ -55,7 +55,7 @@ Build a multi-event nightlife invitation and guest-management web platform. Gues
 
 ## 5. What is ready and what is NOT
 READY: scope, UX rules, roles, schema design, implementation sequence, Codex prompt and tests.  
-NOT READY: app source repository, live Supabase project, credentials, domain, mail domain verification, GDPR documents adopted by the business, deployed app, physical phone tests.
+NOT READY: live Supabase project, credentials, domain, mail domain verification, GDPR documents adopted by the business, deployed app, physical phone tests. A minimal app bootstrap has been proposed in PR #1 and is not yet merged into main.
 
 ## 6. Working method
 - **Git repository = source of truth for code.** Put this entire documentation bundle into repository root; Google Drive = project archive and collaboration/readable copy.
@@ -72,3 +72,9 @@ NOT READY: app source repository, live Supabase project, credentials, domain, ma
 5. Paste `PROMPT_CODEX_FIRST.md` and request **Phase 0** only.
 
 > This bundle describes the product and the build plan; uploading the Markdown files does not deploy a working website.
+
+## 8. Implementation status update — 2026-11-04
+- Bootstrap PR: https://github.com/f3deric0/night-life-event/pull/1 (branch `agent/backend`), pending owner review/merge.
+- CI verified install, lint, typecheck, unit tests and Next.js build successfully.
+- All application screens in the bootstrap are **non-operational previews**, not event workflows.
+- Compact handoff for a new coordinator chat: `docs/25_CONTINUITY_BRIEF.md`.
