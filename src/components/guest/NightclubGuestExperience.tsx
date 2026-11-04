@@ -224,7 +224,7 @@ function Done({ headingRef, onRestart }: HP & { onRestart: () => void }) {
       </span>
       <h1 ref={headingRef} tabIndex={-1} className="silver-text mt-10 font-display text-5xl font-light leading-tight outline-none">Controlla la tua email</h1>
       <p className="mt-6 max-w-xs text-sm leading-relaxed text-muted-foreground">
-        Nella versione finale riceverai un'email per verificare il tuo indirizzo.
+        Nella versione finale riceverai un&apos;email per verificare il tuo indirizzo.
       </p>
       <button type="button" onClick={onRestart} className="mt-14 inline-flex min-h-11 items-center px-4 text-xs uppercase tracking-[0.3em] text-ivory underline decoration-violet/60 underline-offset-8 hover:decoration-violet">
         Ricomincia la demo
