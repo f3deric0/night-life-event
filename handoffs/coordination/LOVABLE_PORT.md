@@ -12,7 +12,9 @@
 - Registration design includes name, surname, birth date, email, country-code + phone, and demo privacy statement. Birth date/phone need a lawful basis and retention policy before collecting real PII.
 - Source contains **no Lovable advertising, generated boilerplate, analytics SDK, Lovable branding/logo, sponsored link or third-party runtime code**. Fonts use iOS/system font stacks rather than Google Fonts remote requests.
 - The staff footer links to the existing `/staff/login` page, whose security is exclusively enforced by Agent 1's server implementation.
-- Added 4 pure validation tests under `tests/guest-demo.test.mjs`. Run GitHub CI on the integration branch before any merge.
+- Added 4 pure validation tests under `tests/guest-demo.test.mjs`.
+- **Checks:** GitHub Actions `Bootstrap checks` job completed lint, typecheck, contract/guest unit tests, and Next.js production build successfully on commit `94c5f4443313e4c478e01508f90421673d6190c0`, https://github.com/f3deric0/night-life-event/actions/runs/41867848657. Job checks were green; run-level final state may take a moment to update.
+- **Vercel preview:** `https://night-life-event-h41g6d0cp-maritimes-projects-d293800f.vercel.app` — Vercel reports READY for commit `94c5f4443313e4c478e01508f90421673d6190c0`. Vercel Authentication is enabled for protected preview deployments, so viewers may need to sign in.
 
 ## Outstanding
 - Source originated from a TanStack Start standalone app; this is a manual adaptation to Next.js and must be visually compared to the Lovable preview on iPhone.
