@@ -1,3 +1,1 @@
-import { unavailable } from "../../../../../lib/api-integration/http";
-export const runtime = "nodejs";
-export function POST(): Response { return unavailable(); }
+import {resendVerification} from "../../../../../lib/api-integration/handlers";import {getApiBackend} from "../../../../../lib/api-integration/ports";export const runtime="nodejs";export const POST=(request:Request)=>resendVerification(request,getApiBackend());
