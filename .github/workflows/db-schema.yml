@@ -41,6 +41,12 @@ jobs:
       - name: Execute Phase 1a migration against disposable PostgreSQL
         run: |
           psql -v ON_ERROR_STOP=1 -f supabase/migrations/20261104170000_core_schema.sql
+      - name: Install server-only atomic check-in RPC
+        run: |
+          psql -v ON_ERROR_STOP=1 -f supabase/migrations/20261104171000_atomic_checkin.sql
       - name: Run structural and RLS regression checks
         run: |
           psql -v ON_ERROR_STOP=1 -f supabase/tests/core_schema_smoke.sql
+      - name: Check one-entry ticket uniqueness and repeat denial
+        run: |
+          psql -v ON_ERROR_STOP=1 -f supabase/tests/checkin_smoke.sql
