@@ -9,6 +9,6 @@
 - **Tests:** GitHub Actions run 41843119004 succeeded on 2026-11-04: dependency installation, `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build` all completed successfully. See https://github.com/f3deric0/night-life-event/actions/runs/41843119004. Local terminal tests were unavailable (npm registry blocked here).
 - **Credentials:** none requested, provisioned, or committed.
 - **Integrations:** Agent 2 and 3 must follow `src/lib/contracts/index.ts` and `docs/24_API_CONTRACT_FREEZE.md`.
-- **Risk:** no committed package-lock until a network-enabled environment generates it; CI install/build passed using npm install, but reproducible npm ci is recommended before merge.
+- **Dependency reproducibility:** `package-lock.json` committed and CI updated to `npm ci`. Confirm the latest CI run is green before approving the merge.
 - **Next:** reviewer approves bootstrap, merge, then fork all agent branches from same main commit; Agent 1 continues DB/RLS and auth.
 - **Blocker:** no production service credentials (expected at bootstrap stage).
