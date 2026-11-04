@@ -1,0 +1,1 @@
+import {staffLogout} from "../../../../lib/api-integration/handlers";import {getApiBackend} from "../../../../lib/api-integration/ports";export const runtime="nodejs";export const POST=(request:Request)=>staffLogout(request,getApiBackend());

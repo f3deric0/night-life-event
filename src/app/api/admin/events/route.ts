@@ -1,0 +1,1 @@
+import {events} from "../../../../lib/api-integration/handlers";import {getApiBackend} from "../../../../lib/api-integration/ports";export const runtime="nodejs";export const GET=(request:Request)=>events(request,getApiBackend());export const POST=(request:Request)=>events(request,getApiBackend());

@@ -1,0 +1,1 @@
+import {exportReport} from "../../../../../lib/api-integration/handlers";import {getApiBackend} from "../../../../../lib/api-integration/ports";export const runtime="nodejs";export const GET=(request:Request)=>exportReport(request,getApiBackend());
