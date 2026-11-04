@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { NightclubGuestExperience } from "@/components/guest/NightclubGuestExperience";
+import { GuestFlow } from "@/components/guest/GuestFlow";
 
 export const metadata: Metadata = {
-  title: "After Dark — Night Life Event | Anteprima",
-  description: "Una notte. Un invito. Esperienza ospite dimostrativa Night Life Event.",
+  title: "After Dark — Night Life Event",
+  description: "Una notte. Un invito. Accesso privato agli eventi Night Life Event.",
   robots: { index: false, follow: false },
 };
 
-export default function HomePage() {
-  return <NightclubGuestExperience />;
+export default function Page() {
+  return <GuestFlow mode="public" />;
 }

@@ -1,7 +1,4 @@
-/* Night Life Event — self-hosted Next.js adaptation of approved Lovable prototype.
- * No Lovable widget, telemetry, promotion, external stylesheets or remote fonts.
- * Original design source: f01ab065631e022230be27416f22d87cfbfedd73.
- */
+/* Night Life Event — mobile-first guest and staff design. No promotional SDK or external tracking. */
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -28,11 +25,11 @@
   --color-ring: var(--ring);
   --color-violet: var(--violet);
   --color-ivory: var(--ivory);
-  --font-display: "Baskerville", "Iowan Old Style", "Times New Roman", serif;
+  --font-display: "Didot", "Bodoni MT", "Baskerville", "Times New Roman", serif;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-.nle-lovable-port {
+.nle-experience {
   --radius: 0.5rem;
   --background: oklch(0.141 0.005 285.8); /* #09090b */
   --foreground: oklch(0.95 0.012 85);
@@ -58,17 +55,17 @@
 }
 
 
-.nle-lovable-port {
+.nle-experience {
   background: var(--background);
   color: var(--foreground);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
 }
-.nle-lovable-port :focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; }
-.nle-lovable-port input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.85); opacity: .7; }
-.nle-lovable-port .font-display { font-family: "Baskerville", "Iowan Old Style", Georgia, serif; }
-.nle-lovable-port input, .nle-lovable-port select { font-size: 16px; }
+.nle-experience :focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; }
+.nle-experience input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.85); opacity: .7; }
+.nle-experience .font-display { font-family: "Didot", "Bodoni MT", "Baskerville", Georgia, serif; }
+.nle-experience input, .nle-experience select { font-size: 16px; }
 @utility ambient {
   background:
     radial-gradient(60% 45% at 50% 18%, color-mix(in oklab, var(--violet) 16%, transparent), transparent 70%),
@@ -130,5 +127,5 @@
 @utility progress-bar { animation: bar 900ms ease-in-out infinite; }
 
 @media (prefers-reduced-motion: reduce) {
-  .nle-lovable-port *, .nle-lovable-port *::before, .nle-lovable-port *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+  .nle-experience *, .nle-experience *::before, .nle-experience *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
 }
